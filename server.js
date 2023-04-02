@@ -44,11 +44,11 @@ app.get("/albums", function (req, res) {
 });
 
 app.get("/albums/:albumId", function (req, res) {
-    const albumToReturn = albumsData.find((album) => album.id === req.params.id);
+    const albumToReturn = albumsData.find((album) => album.albumId === req.params.albumId);
     if (albumToReturn) {
         res.json({albumToReturn})
     } else {
-        res.json(`No albums found with id: ${req.params.id}`)
+        res.json(`No albums found with id: ${req.params.albumId}`)
     }
     // res.json(req.params.albumId);
 });
