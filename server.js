@@ -2,9 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-app.get("/", (req, res) => {
-    res.json("hello");
-})
+app.use(express.json());
 
 const albumsData = [
   {
@@ -39,6 +37,10 @@ const albumsData = [
   },
 ];
 
+app.get("/", (req, res) => {
+    res.json("hello");
+})
+
 app.get("/albums", function (req, res) {
   res.json(albumsData);
 });
@@ -56,7 +58,13 @@ app.get("/albums/:albumId", function (req, res) {
 // notice .post (not .get)
 app.post("/albums", function (req, res) {
   console.log("POST /albums route");
-  res.json({success:true})
+  console.log(req.body);
+
+  const newAlbum = req.body;
+  albumsData.push(newAlbum);
+
+  res.status(201).json({ message: "Album added successfully" });
+
 });
 
 
