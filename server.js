@@ -67,6 +67,29 @@ app.post("/albums", function (req, res) {
 
 });
 
+// Define a route to handle DELETE requests
+app.delete('/albums/:albumId', function(req, res) {
+  const albumId = req.params.albumId;
+  console.log(albumId);
+
+  // Find the item with the given ID
+  const itemIndex = albumsData.findIndex(album => {
+    console.log("comparing",album.albumId, albumId)
+    return album.albumId === albumId 
+    
+  });
+  console.log(itemIndex);
+
+  // If the item exists, remove it from the list
+  if (itemIndex !== -1) {
+    albumsData.splice(itemIndex, 1);
+    res.status(204).send();
+  } else {
+    res.status(404).send();
+  }
+  //console.log(albumsData);
+});
+
 
 app.listen(3000, function () {
   console.log("Server is listening on port 3000. Ready to accept requests!");
