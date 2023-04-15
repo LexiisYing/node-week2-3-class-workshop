@@ -52,10 +52,10 @@ app.get("/albums/:albumId", function (req, res) {
     } else {
         res.json(`No albums found with id: ${req.params.albumId}`)
     }
-    // res.json(req.params.albumId);
 });
 
-// notice .post (not .get)
+
+// Create a new album.
 app.post("/albums", function (req, res) {
   console.log("POST /albums route");
   console.log(req.body);
@@ -67,27 +67,40 @@ app.post("/albums", function (req, res) {
 
 });
 
+// Update existing album by id.
+app.put("/albums/:albumId", function (req, res) {
+  const updateAlbum = { ...req.body, id: req.params.albumId };
+  const albumIndex = albumsData.findIndex(
+    (album) => album.albumId === req.params.albumId
+  );
+
+  if (albumIndex !== -1) {
+    albumsData.splice(albumIndex, 1, updateAlbum);
+    console.log(albumsData, "< updated?");
+    res.status(200).send({ success: true });
+  } else {
+    res.status(404).send("Album not found");
+  }
+});
+
+
 // Define a route to handle DELETE requests
 app.delete('/albums/:albumId', function(req, res) {
   const albumId = req.params.albumId;
   console.log(albumId);
 
-  // Find the item with the given ID
   const itemIndex = albumsData.findIndex(album => {
     console.log("comparing",album.albumId, albumId)
     return album.albumId === albumId 
     
   });
   console.log(itemIndex);
-
-  // If the item exists, remove it from the list
   if (itemIndex !== -1) {
     albumsData.splice(itemIndex, 1);
     res.status(204).send();
   } else {
     res.status(404).send();
   }
-  //console.log(albumsData);
 });
 
 
