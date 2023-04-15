@@ -76,7 +76,6 @@ app.put("/albums/:albumId", function (req, res) {
 
   if (albumIndex !== -1) {
     albumsData.splice(albumIndex, 1, updateAlbum);
-    console.log(albumsData, "< updated?");
     res.status(200).send({ success: true });
   } else {
     res.status(404).send("Album not found");
